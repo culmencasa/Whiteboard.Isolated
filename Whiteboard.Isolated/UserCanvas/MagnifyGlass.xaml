@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Whiteboard.Isolated.UserCanvas.MagnifyGlass"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Whiteboard.Isolated.UserCanvas"
+             mc:Ignorable="d" 
+             x:Name="ucSelf">
+    <Canvas >
+        <Canvas
+            Name="magnifierCanvas"
+            IsHitTestVisible="False"
+            Width="200"
+            Height="200">
+            <Rectangle
+                Width="200"
+                Height="200"
+                StrokeThickness="0"
+                Stroke="LightBlue">
+            </Rectangle>
+            <Rectangle
+                Width="200"
+                Height="200"
+                x:Name="magnifierRectangle">
+                <Rectangle.Fill>
+                    <VisualBrush
+                        x:Name="vb"
+                        Visual="{Binding VisualObj, ElementName=ucSelf}"
+                        Stretch="UniformToFill"
+                        Viewbox="0,0,50,50"
+                        ViewboxUnits="Absolute"
+                        Viewport="0,0,1,1"
+                        ViewportUnits="RelativeToBoundingBox" />
+                </Rectangle.Fill>
+            </Rectangle>
+        </Canvas>
+    </Canvas>
+</UserControl>

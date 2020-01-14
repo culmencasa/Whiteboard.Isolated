@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="Whiteboard.Isolated.UserCanvas.IconControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Whiteboard.Isolated.UserCanvas"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             x:Name="myIcon"
+             Height="80"
+             Width="60">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="IconButtonTemplate"
+                         TargetType="{x:Type RadioButton}">
+            <Grid>
+                <Border x:Name="backCover"
+                        Background="{Binding UncheckedBackground, ElementName=myIcon}"
+                        CornerRadius="{Binding CornerRadius, ElementName=myIcon}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50*" />
+                            <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+
+                        <Image Name="innerIcon"
+                               Source="{Binding Path=IconImage, ElementName=myIcon}"
+                               Stretch="{Binding Stretch, ElementName=myIcon}"
+                               Margin="4 8 4 0"
+                               VerticalAlignment="Stretch"
+                               HorizontalAlignment="Stretch" />
+
+                        <Label Name="innerText"
+                               Grid.Row="1"
+                               Content="{Binding Path=IconText, ElementName=myIcon}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               VerticalContentAlignment="Center"
+                               Padding="0"
+                               Margin="0"
+                               FontSize="14">
+                        </Label>
+                    </Grid>
+
+                    <!--<Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers> 
+                                <Trigger Property="Border.IsMouseOver" Value="True">
+                                    <Setter Property="Border.Background"
+                                            Value="{Binding MouseHoverColor, ElementName=myIcon}" />
+                                </Trigger>
+                                <Trigger Property="Border.IsMouseOver"
+                                         Value="False">
+                                    <Setter Property="Border.Background"
+                                            Value="{Binding UncheckedBackground, ElementName=myIcon}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>-->
+                </Border>
+            </Grid>
+
+            <ControlTemplate.Triggers>
+                <!--<Trigger Property="RadioButton.IsChecked"
+                                 Value="True">
+                    <Setter TargetName="backCover"
+                                    Property="Background"
+                                    Value="{Binding CornerBackground, ElementName=myIcon}" />
+                    <Setter TargetName="innerText"
+                                    Property="Foreground"
+                                    Value="White" />-->
+                <!--<Setter TargetName="innerIcon"
+                                    Property="Source"
+                                    Value="{Binding ActiveIconImage, ElementName=myIcon}" 
+                                    />-->
+                <!--</Trigger>-->
+                <!--<DataTrigger Binding="{Binding ActiveIconImage, ElementName=myIcon}"
+                                     Value="{x:Null}">
+                            <Setter Property="Source"
+                                    TargetName="innerIcon"
+                                    Value="{Binding IconImage, ElementName=myIcon}" />
+                        </DataTrigger>-->
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Resources>
+
+    <RadioButton Name="IconButton"
+                 Command="{Binding ClickCommand, ElementName=myIcon}"
+                 Click="RadioButton_Click"
+                 VerticalAlignment="Stretch"
+                 HorizontalAlignment="Stretch"
+                 Checked="RadioButton_Checked"
+                 Unchecked="RadioButton_Unchecked"
+                 Cursor="Hand"
+                 Height="Auto"
+                 FocusVisualStyle="{x:Null}"
+                 IsChecked="{Binding IsChecked, ElementName=myIcon, Mode=TwoWay}"
+                 GroupName="{Binding GroupName, ElementName=myIcon}"
+                 CommandParameter="{Binding CommandParameter, ElementName=myIcon}"
+                 Template="{DynamicResource IconButtonTemplate}">
+    </RadioButton>
+
+</UserControl>

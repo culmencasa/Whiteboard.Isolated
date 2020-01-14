@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{516FBEC0-4028-4EC7-9319-612B7DCD1E0E}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Whiteboard.Isolated</RootNamespace>
+    <AssemblyName>Whiteboard.Isolated</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UniversalSerializer 3 for NET 4_5, Version=3.18.3.14, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UniversalSerializer.3.18.4.15\lib\net45\UniversalSerializer 3 for NET 4_5.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compose\PagePersistenceParts.cs" />
+    <Compile Include="EZLogger.cs" />
+    <Compile Include="Ink\CoveredModeChangedEventArgs.cs" />
+    <Compile Include="Ink\CoveredModes.cs" />
+    <Compile Include="Ink\DropShapeInfo.cs" />
+    <Compile Include="Ink\SmashInkCanvas.cs" />
+    <Compile Include="Ink\SmashPageInfo.cs" />
+    <Compile Include="Ink\UndoRedo.cs" />
+    <Compile Include="Ink\UndoRedoEnum.cs" />
+    <Compile Include="Ink\UndoRedoHelper.cs" />
+    <Compile Include="Compose\ObjectExt.cs" />
+    <Compile Include="NumberControl.cs" />
+    <Compile Include="Shapes\IReusableShape.cs" />
+    <Compile Include="Shapes\Shape1.cs" />
+    <Compile Include="Shapes\Shape10.cs" />
+    <Compile Include="Shapes\Shape11.cs" />
+    <Compile Include="Shapes\Shape12.cs" />
+    <Compile Include="Shapes\Shape13.cs" />
+    <Compile Include="Shapes\Shape14.cs" />
+    <Compile Include="Shapes\Shape15.cs" />
+    <Compile Include="Shapes\Shape16.cs" />
+    <Compile Include="Shapes\Shape17.cs" />
+    <Compile Include="Shapes\Shape18.cs" />
+    <Compile Include="Shapes\Shape19.cs" />
+    <Compile Include="Shapes\Shape2.cs" />
+    <Compile Include="Shapes\Shape20.cs" />
+    <Compile Include="Shapes\Shape21.cs" />
+    <Compile Include="Shapes\Shape22.cs" />
+    <Compile Include="Shapes\Shape23.cs" />
+    <Compile Include="Shapes\Shape24.cs" />
+    <Compile Include="Shapes\Shape3.cs" />
+    <Compile Include="Shapes\Shape4.cs" />
+    <Compile Include="Shapes\Shape5.cs" />
+    <Compile Include="Shapes\Shape6.cs" />
+    <Compile Include="Shapes\Shape7.cs" />
+    <Compile Include="Shapes\Shape8.cs" />
+    <Compile Include="Shapes\Shape9.cs" />
+    <Compile Include="Shapes\WiredShape.cs" />
+    <Compile Include="CanvasBoard.xaml.cs">
+      <DependentUpon>CanvasBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimersWindow.xaml.cs">
+      <DependentUpon>TimersWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCanvasCommand.cs" />
+    <Compile Include="UserCanvasViewModel.cs" />
+    <Compile Include="UserCanvas\AdornerToolbar.xaml.cs">
+      <DependentUpon>AdornerToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCanvas\IconControl.xaml.cs">
+      <DependentUpon>IconControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCanvas\MagnifyGlass.xaml.cs">
+      <DependentUpon>MagnifyGlass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCanvas\MagnifyGlassAdorner.cs" />
+    <Compile Include="UserCanvas\MagnifyGlassFrame.xaml.cs">
+      <DependentUpon>MagnifyGlassFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCanvas\MagnifyMoveThumb.cs" />
+    <Compile Include="UserCanvas\MagnifyToolbar.xaml.cs">
+      <DependentUpon>MagnifyToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCanvas\PageBoard.xaml.cs">
+      <DependentUpon>PageBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCanvas\RenderTransformHelper.cs" />
+    <Compile Include="UserCanvas\ShapeAdorner.cs" />
+    <Compile Include="UserCanvas\ShapeMoveThumb.cs" />
+    <Compile Include="UserCanvas\ShapeResizeThumb.cs" />
+    <Compile Include="UserCanvas\ShapeRotateThumb.cs" />
+    <Compile Include="UserCanvas\ShapeSelectionFrame.xaml.cs">
+      <DependentUpon>ShapeSelectionFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserCanvas\StrokeAdorner.cs" />
+    <Compile Include="UserCanvas\StrokeMoveThumb.cs" />
+    <Compile Include="UserCanvas\StrokeResizeThumb.cs" />
+    <Compile Include="UserCanvas\StrokeRotateThumb.cs" />
+    <Compile Include="UserCanvas\StrokeSelectionFrame.xaml.cs">
+      <DependentUpon>StrokeSelectionFrame.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\banzhongban.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\daochu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\daoru.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\fangdajing_iocn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\fanhui.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\fuzhi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\guanbi_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\guandeng_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\huifu_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\jieshu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\jishi_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\shanchu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_eraser 2%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_eraser%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_lastpage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_more 2%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_more%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_nestpage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_pen 2%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_pen%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_resources%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_resources2%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_revoke%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_revoke2%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_select 2%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_select1%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_shape%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\toolbar_shape2%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\zhiding.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="CanvasBoard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimersWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserCanvas\AdornerToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserCanvas\IconControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserCanvas\MagnifyGlass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserCanvas\MagnifyGlassFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserCanvas\MagnifyToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserCanvas\PageBoard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserCanvas\ShapeSelectionFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserCanvas\StrokeSelectionFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whiteboard.Isolated.Interface\Whiteboard.Isolated.Interface.csproj">
+      <Project>{bb68d07e-dcfe-4dec-92d8-e62bb34e871a}</Project>
+      <Name>Whiteboard.Isolated.Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Timers\bofnag_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Timers\chongzhi_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Timers\quanpin_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Timers\zanting_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\outter.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\UserCanvas\bg.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets'))" />
+  </Target>
+</Project>

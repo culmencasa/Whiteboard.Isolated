@@ -1,0 +1,73 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Whiteboard.Isolated">
+
+    <Style x:Key="TimerRepeatButton" TargetType="RepeatButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:NumberControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:NumberControl}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <RepeatButton x:Name="PART_IncreaseButton" Command="{x:Static Slider.IncreaseSmall}">
+                                <Grid Width="20" Height="20">
+                                    <Rectangle
+                                        Width="3"
+                                        HorizontalAlignment="Center"
+                                        Fill="#666666" />
+                                    <Rectangle
+                                        Height="3"
+                                        VerticalAlignment="Center"
+                                        Fill="#666666" />
+                                </Grid>
+
+                            </RepeatButton>
+                            <Label
+                                x:Name="PART_NumberLabel"
+                                Grid.Row="1"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="{TemplateBinding Value}"
+                                FontSize="80"
+                                Foreground="#666666" />
+                            <RepeatButton
+                                x:Name="PART_DecreaseButton"
+                                Grid.Row="2"
+                                Command="{x:Static Slider.DecreaseSmall}">
+                                <Grid Width="20" Height="20">
+                                    <Rectangle
+                                        Height="3"
+                                        VerticalAlignment="Center"
+                                        Fill="#666666" />
+                                </Grid>
+                            </RepeatButton>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

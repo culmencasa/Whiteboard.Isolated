@@ -1,0 +1,723 @@
+﻿<UserControl x:Class="Whiteboard.Isolated.CanvasBoard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Whiteboard.Isolated"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:UserControls="clr-namespace:Whiteboard.Isolated.UserCanvas"
+             xmlns:ink="clr-namespace:Whiteboard.Isolated.Ink"
+             xmlns:shapes="clr-namespace:Whiteboard.Isolated.Shapes"
+             d:DesignHeight="800"
+             d:DesignWidth="1920"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries />
+            <!--  颜色按钮  -->
+            <Style x:Key="ColorButton"
+                   TargetType="{x:Type RadioButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RadioButton}">
+                            <Border Width="48"
+                                    Height="40"
+                                    Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                    BorderBrush="#DDDDDD"
+                                    BorderThickness="1"
+                                    CornerRadius="4">
+                                <Grid>
+                                    <Image x:Name="_checkImage"
+                                           Width="23"
+                                           Height="23"
+                                           Source="Resources/UserCanvas/check.png"
+                                           Visibility="Collapsed" />
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      RecognizesAccessKey="True"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked"
+                                         Value="True">
+                                    <Setter TargetName="_checkImage"
+                                            Property="Visibility"
+                                            Value="Visible" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--  大小按钮  -->
+            <Style x:Key="DotButton"
+                   TargetType="{x:Type RadioButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RadioButton}">
+                            <Border Name="dotBorder"
+                                    Width="34"
+                                    Height="34"
+                                    Margin="0"
+                                    Padding="0"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="1"
+                                    CornerRadius="50">
+                                <Ellipse Name="innerDot"
+                                         Width="{Binding FontSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Height="{Binding FontSize, RelativeSource={RelativeSource TemplatedParent}}"
+                                         Fill="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked"
+                                         Value="True">
+                                    <Setter TargetName="dotBorder"
+                                            Property="BorderBrush"
+                                            Value="#44D3B6" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers />
+            </Style>
+
+            <!--  形状按钮  -->
+            <Style x:Key="dragBorder"
+                   TargetType="Border">
+                <Setter Property="CornerRadius"
+                        Value="6" />
+                <Setter Property="Margin"
+                        Value="5,6,5,6" />
+                <Setter Property="Background"
+                        Value="White" />
+                <Setter Property="Padding"
+                        Value="0" />
+                <Setter Property="Width"
+                        Value="60" />
+                <Setter Property="Height"
+                        Value="60" />
+                <EventSetter Event="PreviewMouseDown"
+                             Handler="ShapeList_PreviewMouseDown" />
+                <EventSetter Event="PreviewMouseMove"
+                             Handler="ShapeList_PreviewMouseMove" />
+                <Style.Triggers>
+                    <Trigger Property="Selector.IsSelected"
+                             Value="True">
+                        <Setter Property="Background"
+                                Value="#44D3B6" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Name="grdBody">
+        <!--  画板  -->
+        <Border BorderThickness="10"
+                BorderBrush="#704920">
+            <Grid>
+            <ink:SmashInkCanvas x:Name="myCanvas"
+                                AllowDrop="True"
+                                Drop="InkCanvas_Drop">
+                <ink:SmashInkCanvas.Background>
+                    <ImageBrush ImageSource="Resources/UserCanvas/bg.jpg" />
+                </ink:SmashInkCanvas.Background>
+            </ink:SmashInkCanvas>
+            </Grid>
+        </Border>
+        <!--  画笔属性浮窗  -->
+        <Border Name="pnlDrawAtt"
+                Width="290px"
+                Height="164px"
+                Margin="760,0,870,90"
+                Padding="10"
+                VerticalAlignment="Bottom"
+                Background="White"
+                CornerRadius="10"
+                Visibility="Collapsed">
+            <Grid Height="126">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70*" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <RadioButton Grid.Row="0"
+                                 Background="Black"
+                                 Click="PenSizeButton_Click"
+                                 FontSize="8"
+                                 IsChecked="True"
+                                 Style="{StaticResource DotButton}" />
+                    <RadioButton Grid.Row="1"
+                                 Background="Black"
+                                 Click="PenSizeButton_Click"
+                                 FontSize="14"
+                                 Style="{StaticResource DotButton}" />
+                    <RadioButton Grid.Row="2"
+                                 Background="Black"
+                                 Click="PenSizeButton_Click"
+                                 FontSize="24"
+                                 Style="{StaticResource DotButton}" />
+                </Grid>
+
+                <Grid Grid.Column="1"
+                      Margin="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="42" />
+                        <RowDefinition Height="42" />
+                        <RowDefinition Height="42" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Grid.Row="0"
+                                 Grid.Column="0"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#FF1000"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="0"
+                                 Grid.Column="1"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="Black"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="0"
+                                 Grid.Column="2"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#FF8B00"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="0"
+                                 Grid.Column="3"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#FFC510"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 IsChecked="True"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="1"
+                                 Grid.Column="0"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#321EB5"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="1"
+                                 Grid.Column="1"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#326ED9"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="1"
+                                 Grid.Column="2"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#306C00"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="1"
+                                 Grid.Column="3"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#66D552"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="2"
+                                 Grid.Column="0"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#FF1ECF"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="2"
+                                 Grid.Column="1"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#4EA1B7"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="2"
+                                 Grid.Column="2"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="#8B7E6E"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                    <RadioButton Grid.Row="2"
+                                 Grid.Column="3"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Background="White"
+                                 Checked="PenColorButton_Checked"
+                                 GroupName="Palette"
+                                 Style="{StaticResource ColorButton}" />
+                </Grid>
+            </Grid>
+        </Border>
+        <!--  形状浮窗  -->
+        <Border Name="pnlShapes"
+                Width="440px"
+                Height="320px"
+                Margin="925,0,555,90"
+                VerticalAlignment="Bottom"
+                Background="White"
+                CornerRadius="10"
+                FocusManager.IsFocusScope="True"
+                Visibility="Collapsed">
+            <WrapPanel HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape1 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape2 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape3 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape4 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape5 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape6 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape7 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape8 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape9 Width="40"
+                                   Height="40"
+                                   Fill="#666666"
+                                   Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape10 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape11 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape12 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape13 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape14 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape15 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape16 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape17 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape18 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape19 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape20 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape21 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape22 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape23 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+                <Border Style="{StaticResource dragBorder}">
+                    <shapes:Shape24 Width="40"
+                                    Height="40"
+                                    Fill="#666666"
+                                    Stroke="#666666" />
+                </Border>
+            </WrapPanel>
+        </Border>
+        <!--  橡皮擦浮窗  -->
+        <Border Name="pnlRubber"
+                Width="193"
+                Height="71"
+                Margin="884,0,843,90"
+                VerticalAlignment="Bottom"
+                Background="White"
+                CornerRadius="10"
+                Visibility="Collapsed">
+            <Border Name="RubberBoundary"
+                    Margin="11"
+                    Background="#EBEBED"
+                    CornerRadius="25">
+                <Canvas>
+                    <Label Canvas.Left="44"
+                           Canvas.Top="12"
+                           Content="滑动清除笔迹"
+                           Foreground="White" />
+                    <Button Name="btnClearHandle"
+                            Canvas.Left="0"
+                            Canvas.Top="0"
+                            Background="White"
+                            Cursor="Hand"
+                            FocusVisualStyle="{x:Null}"
+                            PreviewMouseDown="BtnClearHandle_MouseDown"
+                            PreviewMouseMove="BtnClearHandle_MouseMove"
+                            PreviewMouseUp="BtnClearHandle_MouseUp">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border Width="43"
+                                                    Height="43"
+                                                    Margin="3,3,0,0"
+                                                    Background="White"
+                                                    CornerRadius="50">
+                                                <Grid>
+                                                    <Line Stroke="#CCCCCC"
+                                                          StrokeThickness="2"
+                                                          X1="10"
+                                                          X2="10"
+                                                          Y1="15"
+                                                          Y2="30" />
+                                                    <Line Stroke="#CCCCCC"
+                                                          StrokeThickness="2"
+                                                          X1="21"
+                                                          X2="21"
+                                                          Y1="10"
+                                                          Y2="35" />
+                                                    <Line Stroke="#CCCCCC"
+                                                          StrokeThickness="2"
+                                                          X1="32"
+                                                          X2="32"
+                                                          Y1="15"
+                                                          Y2="30" />
+                                                </Grid>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Canvas>
+            </Border>
+
+        </Border>
+        <!--  更多浮窗  -->
+        <Border Name="pnlMore"
+                Width="248"
+                Height="130"
+                Margin="1055,0,617,90"
+                Padding="10,5,10,4"
+                VerticalAlignment="Bottom"
+                Background="White"
+                CornerRadius="10"
+                Visibility="Collapsed">
+            <StackPanel>
+                <Label Content="通用"
+                       FontSize="16" />
+                <WrapPanel HorizontalAlignment="Left"
+                           VerticalAlignment="Center">
+                    <UserControls:IconControl x:Name="BtnShowTimer"
+                                              Width="75"
+                                              Height="80"
+                                              CheckedFontColor="#666666"
+                                              CornerRadius="5"
+                                              IconImage="Resources/UserCanvas/jishi_icon.png"
+                                              IconText="计时"
+                                              MouseHoverColor="LightGray"
+                                              PreviewMouseLeftButtonUp="BtnShowTimer_MouseLeftButtonUp"
+                                              Stretch="Uniform"
+                                              UncheckedFontColor="#666666" />
+                    <UserControls:IconControl Width="75"
+                                              Height="80"
+                                              CheckedFontColor="#666666"
+                                              Click="BtnMagnifyGlass_Click"
+                                              CornerRadius="5"
+                                              IconImage="Resources/UserCanvas/fangdajing_iocn.png"
+                                              IconText="放大镜"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedFontColor="#666666" />
+                    <UserControls:IconControl Width="75"
+                                              Height="80"
+                                              ActiveIconImage="Resources/UserCanvas/huifu_icon.png"
+                                              CheckedFontColor="#666666"
+                                              Click="ToolSelect_Click"
+                                              CornerRadius="5"
+                                              IconImage="Resources/UserCanvas/huifu_icon.png"
+                                              IconText="恢复"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedFontColor="#666666" />
+                    <!--<UserControls:IconControl IconText="板中板" Width="60" Height="100" Click="BtnMagnifyGlass_Click" />-->
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+
+        <!--  底部操作栏  -->
+        <Grid Name="CanvasToolPanel"
+              Height="80"
+              Margin="0,0,0,0"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240*" />
+                <ColumnDefinition Width="800*" />
+                <ColumnDefinition Width="320" />
+            </Grid.ColumnDefinitions>
+
+            <!--  工具栏  -->
+            <Border Name="myToolbar"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    Background="#E8EAEC"
+                    BorderBrush="Gray"
+                    BorderThickness="0"
+                    CornerRadius="5">
+                <StackPanel Orientation="Horizontal">
+                    <UserControls:IconControl x:Name="btnToolSelect"
+                                              Width="80"
+                                              Height="80"
+                                              ActiveIconImage="Resources/UserCanvas/toolbar_select1@2x.png"
+                                              CheckedBackground="#44D3B6"
+                                              Click="ToolSelect_Click"
+                                              CornerRadius="5 0 0 5"
+                                              GroupName="Draw"
+                                              IconImage="Resources/UserCanvas/toolbar_select 2@2x.png"
+                                              IconText="选择"
+                                              IsChecked="True"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedBackground="#E8EAEC" />
+                    <UserControls:IconControl x:Name="btnPen"
+                                              Width="80"
+                                              Height="80"
+                                              ActiveIconImage="Resources/UserCanvas/toolbar_pen 2@2x.png"
+                                              CheckedBackground="#44D3B6"
+                                              Click="ToolSelect_Click"
+                                              GroupName="Draw"
+                                              IconImage="Resources/UserCanvas/toolbar_pen@2x.png"
+                                              IconText="画笔"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedBackground="#E8EAEC" />
+                    <UserControls:IconControl x:Name="btnRubber"
+                                              Width="80"
+                                              Height="80"
+                                              ActiveIconImage="Resources/UserCanvas/toolbar_eraser 2@2x.png"
+                                              CheckedBackground="#44D3B6"
+                                              Click="ToolSelect_Click"
+                                              GroupName="Draw"
+                                              IconImage="Resources/UserCanvas/toolbar_eraser@2x.png"
+                                              IconText="橡皮擦"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedBackground="#E8EAEC" />
+                    <UserControls:IconControl x:Name="btnUndo"
+                                              Width="80"
+                                              Height="80"
+                                              ActiveIconImage="Resources/UserCanvas/toolbar_revoke2@2x.png"
+                                              CheckedBackground="#44D3B6"
+                                              Click="ToolSelect_Click"
+                                              GroupName="Draw"
+                                              IconImage="Resources/UserCanvas/toolbar_revoke@2x.png"
+                                              IconText="撤消"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedBackground="#E8EAEC" />
+                    <UserControls:IconControl x:Name="btnRedo"
+                                              Width="80"
+                                              Height="80"
+                                              ActiveIconImage="Resources/UserCanvas/toolbar_revoke2@2x.png"
+                                              CheckedBackground="#44D3B6"
+                                              Click="ToolSelect_Click"
+                                              GroupName="Draw"
+                                              IconImage="Resources/UserCanvas/toolbar_revoke@2x.png"
+                                              IconText="重做"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedBackground="#E8EAEC"
+                                              Visibility="Collapsed" />
+                    <UserControls:IconControl x:Name="btnShape"
+                                              Width="80"
+                                              Height="80"
+                                              ActiveIconImage="Resources/UserCanvas/toolbar_shape2@2x.png"
+                                              CheckedBackground="#44D3B6"
+                                              Click="ToolSelect_Click"
+                                              GroupName="Draw"
+                                              IconImage="Resources/UserCanvas/toolbar_shape@2x.png"
+                                              IconText="形状"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedBackground="#E8EAEC" />
+                    <UserControls:IconControl x:Name="btnMore"
+                                              Width="80"
+                                              Height="80"
+                                              ActiveIconImage="Resources/UserCanvas/toolbar_more 2@2x.png"
+                                              CheckedBackground="#44D3B6"
+                                              Click="ToolSelect_Click"
+                                              CornerRadius="0 5 5 0"
+                                              GroupName="Draw"
+                                              IconImage="Resources/UserCanvas/toolbar_more@2x.png"
+                                              IconText="更多"
+                                              MouseHoverColor="LightGray"
+                                              Stretch="Uniform"
+                                              UncheckedBackground="#E8EAEC" />
+                </StackPanel>
+            </Border>
+
+            <!--  页码  -->
+            <Border Name="myPager"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Stretch"
+                    Background="#E8EAEC"
+                    BorderBrush="Gray"
+                    BorderThickness="0"
+                    CornerRadius="5">
+                <StackPanel Orientation="Horizontal">
+                    <UserControls:IconControl x:Name="btnLastPage"
+                                              Width="80"
+                                              Height="80"
+                                              CheckedFontColor="Black"
+                                              Click="BtnLastPage_Click"
+                                              CornerRadius="5 0 0 5"
+                                              IconImage="Resources/UserCanvas/toolbar_lastpage.png"
+                                              IconText="上一页"
+                                              MouseHoverColor="#44d3b6" />
+                    <UserControls:PageBoard x:Name="ucPage"
+                                            Foreground="#5D6578"
+                                            Width="80"
+                                            Height="80" />
+                    <UserControls:IconControl x:Name="btnNextPage"
+                                              Width="80"
+                                              Height="80"
+                                              CheckedFontColor="Black"
+                                              Click="BtnNextPage_Click"
+                                              IconImage="Resources/UserCanvas/toolbar_nestpage.png"
+                                              IconText="下一页"
+                                              MouseHoverColor="#44d3b6" />
+                    <UserControls:IconControl x:Name="btnAddPage"
+                                              Width="80"
+                                              Height="80"
+                                              CheckedFontColor="Black"
+                                              Click="BtnAddPage_Click"
+                                              CornerRadius="0 5 5 0"
+                                              IconImage="Resources/UserCanvas/toolbar_add.png"
+                                              IconText="新增"
+                                              MouseHoverColor="#44d3b6" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

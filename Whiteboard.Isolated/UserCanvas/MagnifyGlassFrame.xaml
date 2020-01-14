@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Whiteboard.Isolated.UserCanvas.MagnifyGlassFrame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Whiteboard.Isolated.UserCanvas"
+        mc:Ignorable="d" Name="ucSelectionFrame">
+    <UserControl.Resources>
+
+        <ControlTemplate x:Key="MoveThumbTemplate" TargetType="{x:Type local:MagnifyMoveThumb}">
+            <Rectangle Fill="Transparent" />
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <!--<Border BorderThickness="3" BorderBrush="LightBlue" Margin="-3">-->
+        <Grid
+            IsHitTestVisible="True"
+            Opacity="1"
+            Margin="-3">
+            <Rectangle
+                SnapsToDevicePixels="True"
+                StrokeThickness="3"
+                Margin="0"
+                Stroke="White" />
+        </Grid>
+        <Grid Opacity="0">
+            <local:MagnifyMoveThumb Margin="0" Cursor="SizeAll" Template="{StaticResource MoveThumbTemplate}"
+                        DataContext="{Binding Playground, ElementName=ucSelectionFrame}" />
+        </Grid>
+        <!--</Border>-->
+    </Grid>
+</UserControl>
